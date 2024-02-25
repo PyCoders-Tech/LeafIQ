@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+db.sqlite3
+media/
+staticFiles/
+
+# Secret key
+*.secret
+
+# Development
+*.env
+*.env.local
+*.envrc
+
+# IDE settings
+.vscode/
+.idea/
+
+# Dependency directories
+venv/
+env/
+
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Local development settings
+local_settings.py
+
+# User-specific files
+*.suo
+*.user
+*.suo
+*.user
+*.sdf
+*.opensdf
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+\#*#
+.svn/
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pyz
+*.pyw
+__pycache__/
