@@ -14,10 +14,12 @@ class TreeTypeViewSet(CreateAPIView):
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
         instance = response.data
-        image_path = instance.get('image', None)
+        image_path = instance.get('image', None),
+        tree_name = instance.get('name', None),
+        test_type = instance.get('test_type', None)
         
-        if image_path:
-            cnn_result = predict_cnn_result(image_path)
+        if image_path and tree_name and test_type:
+            cnn_result = predict_cnn_result(tree_name, test_type, image_path)
             instance['result'] = cnn_result
 
         return Response(instance)
