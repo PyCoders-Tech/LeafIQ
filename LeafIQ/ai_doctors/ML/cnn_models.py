@@ -1,5 +1,6 @@
 # import tensorflow as tf
-from tensorflow.keras.preprocessing import image
+# from tensorflow.keras.preprocessing import image
+# from keras.preprocessing.image import load_img, img_to_array
 import numpy as np
 import cv2
 
@@ -7,8 +8,9 @@ import cv2
 def predict_cnn_result(tree_name, test_type, image_path):
     if tree_name == 'potato':
         return potato_model(test_type, image_path)
+    return 'test'
     
-# 01787768940
+
 def extract_steps_from_file(file_path):
     try:
         with open(file_path, 'r') as file:
@@ -28,9 +30,8 @@ def extract_steps_from_file(file_path):
 
 
 def image_load(img_path):
-    # img_path = 'media/' + image_name
-    img = image.load_img(img_path, target_size=(64, 64))
-    print(img)
+    img = cv2.imread(img_path)
+    img = cv2.resize(img, (64, 64))
     if img is None:
         print('Error: Image not loaded.')
         return None
@@ -41,20 +42,15 @@ def image_load(img_path):
     return img_array
 
 
-def potato_model(test_name, image_name):
-    img_array = image_load(image_name)
+def potato_model(test_name, image_path):
+    img_array = image_load(image_path)
     if test_name == 'leaf':
-        # Load the saved model
         loaded_model = tf.keras.models.load_model('./ML models/potato/Potato_leaf_prediction_model.h5')
-        # Make predictions
         predictions = loaded_model.predict(img_array)
-
-
         # For example, if your model uses one-hot encoding and you have a class mapping:
         class_mapping = {0: 'Potato Early_Blight', 1: 'Potato Late_Blight',
                          2: 'Potato Healthy'}  # Replace with your class mapping
 
-        # Find the index of the predicted class
         predicted_class_index = np.argmax(predictions, axis=1)[0]
 
         # Get the human-readable label
