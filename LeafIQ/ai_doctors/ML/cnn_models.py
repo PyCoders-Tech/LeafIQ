@@ -1,6 +1,6 @@
-# import tensorflow as tf
-# from tensorflow.keras.preprocessing import image
-# from keras.preprocessing.image import load_img, img_to_array
+import tensorflow as tf
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.utils import load_img, img_to_array
 import numpy as np
 import cv2
 
