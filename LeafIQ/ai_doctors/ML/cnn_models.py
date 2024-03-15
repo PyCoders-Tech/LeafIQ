@@ -1,14 +1,16 @@
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.utils import load_img, img_to_array
+from tensorflow.keras.applications.resnet50 import preprocess_input
 import numpy as np
 import cv2
+import os
 
 
 def predict_cnn_result(tree_name, test_type, image_path):
     if tree_name == 'potato':
         return potato_model(test_type, image_path)
-    return 'test'
+    return None
     
 
 def extract_steps_from_file(file_path):
@@ -30,11 +32,14 @@ def extract_steps_from_file(file_path):
 
 
 def image_load(img_path):
-    img = cv2.imread(img_path)
-    img = cv2.resize(img, (64, 64))
+
+    img = image.load_img('.'+img_path, target_size=(64, 64))
+    
+
     if img is None:
         print('Error: Image not loaded.')
-        return None
+        raise ValueError(f"Failed to load image from path: {img_path}")
+    
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
     img_array = preprocess_input(img_array)
@@ -44,8 +49,9 @@ def image_load(img_path):
 
 def potato_model(test_name, image_path):
     img_array = image_load(image_path)
+    #done
     if test_name == 'leaf':
-        loaded_model = tf.keras.models.load_model('./ML models/potato/Potato_leaf_prediction_model.h5')
+        loaded_model = tf.keras.models.load_model('./ai_doctors/ML/models/potato/Potato_leaf_prediction_model.h5')
         predictions = loaded_model.predict(img_array)
         # For example, if your model uses one-hot encoding and you have a class mapping:
         class_mapping = {0: 'Potato Early_Blight', 1: 'Potato Late_Blight',
@@ -59,15 +65,16 @@ def potato_model(test_name, image_path):
         # Print the prediction
         print(f"Predicted Class: {predicted_class}")
         # Specify the path to your text file
+        
         if predicted_class == "Potato Early_Blight":
-            file_path = 'instructions/potato/leaf/Potato Early_Blight.txt'
+            file_path = './ai_doctors/ML/instructions/potato/leaf/Potato Early_Blight.txt'
         elif predicted_class == "Potato Late_Blight":
-            file_path = 'instructions/potato/leaf/Potato Late_Blight.txt'
+            file_path = './ai_doctors/ML/instructions/potato/leaf/Potato Late_Blight.txt'
         else:
-            file_path = 'instructions/potato/leaf/Potato Healthy.txt'
+            file_path = './ai_doctors/ML/instructions/potato/leaf/Potate Healthy.txt'
         # Call the function to extract steps from the file
         instructions = extract_steps_from_file(file_path)
 
-        return predicted_class, instructions
+        return [predicted_class, instructions]
     elif test_name == 'skin':
         pass
