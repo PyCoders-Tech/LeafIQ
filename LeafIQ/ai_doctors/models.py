@@ -3,6 +3,8 @@ from django.db import models
 class TreeType(models.Model):
     TREE_NAME = {
         'potato': 'Potato',
+        'rice': 'Rice',
+        'corn': 'Corn'
     }
     TEST_TYPE = {
         'leaf': 'Leaf'
